@@ -11,7 +11,7 @@ import Messages from '../../src'
 let Demo = React.createClass({
   render() {
     return <div className="uikit-body">
-      <Messages success="test" info="rwar" warning="asd" error="werwer"/>
+      <Messages success="success" info="info" warning="warning" error="error"/>
     </div>
   }
 })
