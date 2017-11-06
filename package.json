@@ -36,5 +36,8 @@
   },
   "keywords": [
     "react-component"
-  ]
+  ],
+  "dependencies": {
+    "node-observer": "^0.4.4"
+  }
 }
