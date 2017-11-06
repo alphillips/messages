@@ -41,6 +41,10 @@ class Messages extends React.Component {
     }))
   }
 
+  componentWillUnmount = () => {
+    observer.unsubscribe('error-listener', "error")
+  }
+  
   render() {
     return (
       <div className="message-container">
