@@ -1,6 +1,6 @@
 {
   "name": "@react-ag-components/messages",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "messages React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -38,6 +38,7 @@
     "react-component"
   ],
   "dependencies": {
+    "jsx-to-string": "^1.1.0",
     "node-observer": "^0.4.4"
   }
 }

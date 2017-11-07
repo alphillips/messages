@@ -1,5 +1,6 @@
 import React from 'react'
 import observer from 'node-observer'
+import jsxToString from 'jsx-to-string'
 import './messages.css'
 
 class Messages extends React.Component {
@@ -44,31 +45,41 @@ class Messages extends React.Component {
   componentWillUnmount = () => {
     observer.unsubscribe('error-listener', "error")
   }
-  
+
+  makeString = (message) => {
+    if(message){
+      if(typeof message === "object" ){
+        return jsxToString(message)
+      }
+      return message
+    }
+    return null
+  }
+
   render() {
     return (
       <div className="message-container">
         {this.state.info &&
           <div className="uikit-page-alerts" role="alert">
-            <div dangerouslySetInnerHTML={{__html: (this.state.info)}}></div>
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.info))}}></div>
           </div>
         }
 
         {this.state.warning &&
           <div className="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-            <div dangerouslySetInnerHTML={{__html: (this.state.warning)}}></div>
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.warning))}}></div>
           </div>
         }
 
         {this.state.success &&
           <div className="uikit-page-alerts uikit-page-alerts--success" role="alert">
-            <div dangerouslySetInnerHTML={{__html: (this.state.success)}}></div>
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.success))}}></div>
           </div>
         }
 
         {this.state.error &&
           <div className="uikit-page-alerts uikit-page-alerts--error" role="alert">
-           <div dangerouslySetInnerHTML={{__html: (this.state.error)}}></div>
+           <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.error))}}></div>
           </div>
         }
       </div>
