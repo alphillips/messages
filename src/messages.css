@@ -1,7 +1,6 @@
-#root .uikit-page-alerts {
-  margin-top: 0;
-}
+.uikit-page-alerts {
+  margin-top: 0 !important;
+  max-width: unset !important; }
 
 .message-container {
-  padding-top: 1.6em;
-}
+  padding-top: 1.6em; }
