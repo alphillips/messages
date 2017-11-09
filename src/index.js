@@ -1,5 +1,6 @@
 import React from 'react'
-
+import observer from 'node-observer'
+import jsxToString from 'jsx-to-string'
 import './messages.css'
 
 class Messages extends React.Component {
@@ -7,33 +8,78 @@ class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      info:null,
+      warning:null,
+      success:null,
+      error:null
     }
+    this.apiHook = (props.apiHook === false) ? false : true
+  }
+
+  componentDidMount() {
+    this.setState((prevState, props) => ({
+      info:this.props.info,
+      warning:this.props.warning,
+      success:this.props.success,
+      error:this.props.error
+    }))
+
+    if(this.apiHook){
+      observer.subscribe('error-listener', "error", function(who, data) {
+        this.setState((prevState, props) => ({
+          error:data
+        }))
+      }.bind(this))
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState((prevState, props) => ({
+      info:nextProps.info,
+      warning:nextProps.warning,
+      success:nextProps.success,
+      error:nextProps.error
+    }))
+  }
+
+  componentWillUnmount = () => {
+    observer.unsubscribe('error-listener', "error")
+  }
+
+  makeString = (message) => {
+    if(message){
+      if(typeof message === "object" ){
+        return jsxToString(message)
+      }
+      return message
+    }
+    return null
   }
 
   render() {
     return (
       <div className="message-container">
-        {this.props.info &&
+        {this.state.info &&
           <div className="uikit-page-alerts" role="alert">
-            {this.props.info}
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.info))}}></div>
           </div>
         }
 
-        {this.props.warning &&
+        {this.state.warning &&
           <div className="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-            {this.props.warning}
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.warning))}}></div>
           </div>
         }
 
-        {this.props.success &&
+        {this.state.success &&
           <div className="uikit-page-alerts uikit-page-alerts--success" role="alert">
-          	{this.props.success}
+            <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.success))}}></div>
           </div>
         }
 
-        {this.props.error &&
+        {this.state.error &&
           <div className="uikit-page-alerts uikit-page-alerts--error" role="alert">
-        	 {this.props.error}
+           <div dangerouslySetInnerHTML={{__html: this.makeString((this.state.error))}}></div>
           </div>
         }
       </div>
